@@ -15,6 +15,9 @@ public class JudgeTaskException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
 	
 	public JudgeTaskException(String message, short errorCode) {
-		super("message");
+		super(message );
+	}
+	public JudgeTaskException(String message) {
+		super(message);
 	}
 }

@@ -1,12 +1,10 @@
 package taskmanager.exception;
 
-
-
-public class JudgeManagerException extends RuntimeException {
+public class CompilerException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 }
