@@ -6,6 +6,7 @@ package taskmanager.info;
  */
 
 import java.io.File;
+import java.util.Date;
 
 import taskmanager.abstractInfo.KalznCanJudge;
 import taskmanager.exception.JudgeTaskException;
@@ -14,7 +15,7 @@ import taskmanager.exception.JudgeTaskException;
  * @author 22612
  *
  */
-public class KalznJudgeTask {
+public class KalznJudgeTask implements Comparable<KalznJudgeTask> {
 	
 	public final static short STRICT_MODE = 1, NOT_STRICT_MODE = 0; 
 	// the judge mode.
@@ -41,10 +42,18 @@ public class KalznJudgeTask {
 	
 	private short judgeWay; 
 	// The sign suggest the judge way 
-	// ( single result (like ICPC mode) or calculate total point(like IOI) )
+	// ( single result (like ICPC mode) or calculate total point (like IOI) )
 	
+	private short priority;
+	// The priority value = 0~10, and a task that have bigger value have higher priority. 
 	
-	public KalznJudgeTask(long taskID, KalznCanJudge problem, File codeFile, KalznCompiler selectedCompiler, short judgeMode, short judgeWay) throws RuntimeException {
+	private Date submitDate;
+	// The submit date of the task (The time that the task is received by web server)
+	
+	private Date constructDate;
+	// The construct date of the task (The time that the task is received by judge server)
+	
+	public KalznJudgeTask(long taskID, KalznCanJudge problem, File codeFile, KalznCompiler selectedCompiler, short judgeMode, short judgeWay, short priority, Date submitDate ) throws RuntimeException {
 		this.codeFile=codeFile;
 		this.problem = problem;
 		if (taskID < 0) throw new JudgeTaskException("TaskID is negative.", JudgeTaskException.TASK_CONSTRUCT_ERROR);
@@ -52,6 +61,9 @@ public class KalznJudgeTask {
 		this.selectedCompiler = selectedCompiler;
 		this.judgeMode = judgeMode;
 		this.judgeWay = judgeWay;
+		this.priority = priority;
+		this.submitDate = submitDate;
+		this.constructDate = new Date();
 	}
 	
 	public long getTaskID() {
@@ -100,6 +112,41 @@ public class KalznJudgeTask {
 
 	public void setJudgeWay(short judgeWay) {
 		this.judgeWay = judgeWay;
+	}
+	
+	public short getPriority() {
+		return priority;
+	}
+
+	public void setPriority(short priority) {
+		this.priority = priority;
+	}
+
+	public Date getSubmitDate() {
+		return submitDate;
+	}
+
+	public void setSubmitDate(Date submitDate) {
+		this.submitDate = submitDate;
+	}
+
+	public Date getConstructDate() {
+		return constructDate;
+	}
+
+	public void setConstructDate(Date constructDate) {
+		this.constructDate = constructDate;
+	}
+
+	@Override
+	public int compareTo(KalznJudgeTask o) {
+		if (this.priority!=o.priority) {
+			return - this.priority - o.priority;
+		}  else if (this.submitDate.compareTo(o.submitDate) != 0) {
+			return this.submitDate.compareTo(o.submitDate);
+		} else {
+			return this.constructDate.compareTo(o.constructDate);
+		}
 	}
 	
 }

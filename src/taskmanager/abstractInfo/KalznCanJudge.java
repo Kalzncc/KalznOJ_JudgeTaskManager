@@ -14,8 +14,8 @@ public interface KalznCanJudge {
 	File[] getInputFiles() throws IOException; // get the input files
 	File[] getOutputFiles() throws IOException; // get the output files
 	int[] getCasePoints(); // get the each cases' points, if the CanJudge is expected to judge with ACM-ICPC way, default all is 0
-	int getTimeLimit(); // get the CanJudge's CPU time limit
-	int getMemLimit(); // get the CanJudge's memory limit
+	int getTimeLimit(); // get the CanJudge's CPU time limit ( ms )
+	int getMemLimit(); // get the CanJudge's memory limit ( kb )
 	
 	
 	
